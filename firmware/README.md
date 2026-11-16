@@ -17,7 +17,6 @@
 - [Configuração do Firmware](#configuração-do-firmware)
 - [Mapa de memória](#mapa-de-memória)
 - [Protocolo (UART 19200 8N1)](#protocolo-uart-19200-8n1)
-- [Bring-up / Bancada](#bring-up--bancada)
 - [Informações](#informações)
 
 ## Histórico de versão
@@ -228,23 +227,23 @@ A pasta `firmware` tem o projeto do bootloader (pic-as) e o app de exemplo (XC8)
 ```txt
 pic16f88-usb-bootloader/
 │
-├── docs/                 # Imagens da documentação (PICKIT3, pinout, tela do software)
+├── docs/                                  # Imagens da documentação (PICKIT3, pinout, tela do software)
 │
 ├── firmware/
-│   ├── bootloader.X/     # Projeto MPLAB X do bootloader (toolchain pic-as)
-│   │   ├── bootloader.s  # Bootloader completo (250 de 256 words) - Source Files
-│   │   └── fuses.inc     # Bits de configuração (fuses) - Header Files
+│   ├── bootloader.X/                      # Projeto MPLAB X do bootloader (toolchain pic-as)
+│   │   ├── bootloader.s                   # Bootloader completo (250 de 256 words) - Source Files
+│   │   └── fuses.inc                      # Bits de configuração (fuses) - Header Files
 │   │
-│   ├── uart.X/           # App de exemplo (C/XC8): comandos a/b pela serial (9600 bps) para o LED (RB0)
+│   ├── uart.X/                            # App de exemplo (C/XC8): comandos a/b pela serial (9600 bps) para o LED (RB0)
 │   │   ├── main.c
-│   │   ├── UART.c / UART.h   # Biblioteca UART
+│   │   ├── UART.c / UART.h                # Biblioteca UART
 │   │   └── nbproject/configurations.xml   # ROM ranges = default,-EE0-FFF
 │   │
-│   └── README.md         # Este arquivo
+│   └── README.md                          # Este arquivo
 │
-├── software/             # Gravador do PC (ver software/README.md)
-│   ├── main.py           # Interface gráfica (PyQt6)
-│   └── scripts/pic16f88_boot.py   # Modo terminal
+├── software/                              # Gravador do PC (ver software/README.md)
+│   ├── main.py                            # Interface gráfica (PyQt6)
+│   └── scripts/pic16f88_boot.py           # Modo terminal
 │
 ├── LICENSE
 └── README.md
@@ -302,13 +301,6 @@ Ao gravar, aperte o RESET da placa quando pedir. O script tenta conectar por 15 
 
 - Words em little-endian, como no .hex. chk: a soma de todos os bytes após o comando (incluindo chk) é 0 mod 256. 'N' = checksum errado, 'P' = endereço ≥ 0x0F00.
 - Ordem de gravação no uploader: (1) apaga o stub, (2) grava o app, (3) grava a EEPROM, (4) grava o stub. Se a gravação for interrompida, o PIC fica no bootloader em vez de rodar um app pela metade.
-
-## Bring-up / Bancada
-
-1. **Sintoma:** `bootloader.s:53: error: (876) syntax error` no pic-as. **Causa raiz:** o projeto usa `-xassembler-with-cpp` e o `xc.inc` define RB0 como macro (bit do PORTB), expandida dentro de `CONFIG CCPMX = RB0`. **Correção:** bloco CONFIG movido para antes do #include. **Confirmado em:** 14/11/2026.
-2. **Sintoma:** depois do .s corrigido, o build continuou com o mesmo erro. **Causa raiz:** o MPLAB estava com o arquivo aberto no editor e salvou o buffer antigo por cima ao compilar. **Correção:** fechar a aba sem salvar e reabrir. **Confirmado em:** 14/11/2026.
-3. **Placa real:** uart.X (1059 words, 34 linhas) gravado por CP210x (COM4) a 19200 bps em 3,3 s, verificação OK, app rodando a 9600 bps. As primeiras linhas do app não aparecem no monitor porque a porta é reaberta depois que o app já começou. **Confirmado em:** 14/11/2026.
-4. **Interrupção:** uart.X v1.1.0 (1434 words, 46 linhas, 4,5 s) com ISR do Timer0. Os segundos contados na ISR acompanham o contador do loop, confirmando que o vetor 0x0004 do app funciona com o bootloader no topo. **Confirmado em:** 14/11/2026.
 
 ## Informações
 
