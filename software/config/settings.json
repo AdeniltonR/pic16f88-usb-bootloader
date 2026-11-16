@@ -1,0 +1,13 @@
+{
+    "bootloader_baud": 19200,
+    "monitor_baud": 9600,
+    "baud_options": [9600, 19200, 38400, 57600, 115200],
+    "wait_reset_s": 15,
+    "verify": true,
+    "dtr_reset": false,
+    "last_port": "",
+    "last_file": "",
+    "last_program": "",
+    "line_ending": "\r\n",
+    "log_timestamp": true
+}

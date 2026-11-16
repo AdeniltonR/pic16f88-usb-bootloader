@@ -1,0 +1,21 @@
+# ---MPLAB X (arquivos gerados no build)---
+**/build/
+**/dist/
+**/debug/
+**/nbproject/private/
+**/nbproject/Makefile-*.mk
+**/nbproject/Makefile-genesis.properties
+**/nbproject/Package-*.bash
+*.hex
+*.elf
+*.o
+*.map
+*.lst
+*.cof
+
+# ---Python---
+venv/
+__pycache__/
+*.pyc
+*.spec
+software/data/logs/*.log
