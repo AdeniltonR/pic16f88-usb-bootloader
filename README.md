@@ -1,6 +1,5 @@
 # PIC16F88 USB Bootloader
 
-![Version](https://img.shields.io/badge/Version-1.0.0-blue)
 ![Firmware](https://img.shields.io/badge/Firmware-1.1.0-blue)
 ![Software](https://img.shields.io/badge/Software-1.4.0-blue)
 ![PIC16F88](https://img.shields.io/badge/MCU-PIC16F88-red)
